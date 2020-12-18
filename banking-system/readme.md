@@ -35,7 +35,7 @@ Next you execute the binary file as follows:
 `./executable/main`  
 
 
-# Referenes  
+# References  
 [The Complete C Course](http://udemy.com/the-complete-c-course-ppa/)  
 [Panchal Programming Academy](http://panchalprogrammingacademy.herokuapp.com/)  
 For any query feel free to write to panchalprogrammingacademy@gmail.com  
