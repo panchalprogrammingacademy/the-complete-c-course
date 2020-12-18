@@ -1,35 +1,32 @@
-// define banking.h if not defined already
-#ifndef _BANKING_H
-#define _BANKING_H
-
-// This file is responsible for handling all the banking operations
-// And all the data is read and written to file
+// define filehandling.h if not defined already
+#ifndef _FILEHANDLING_H
+#define _FILEHANDLING_H
 
 // for file IO
 #include <stdio.h>
 // for boolean operations
 #include <stdbool.h>
-// for user operations
-#include "user.h"
-// for user list
-#include "userlist.h"
+// for todo operations
+#include "todo.h"
 // for string operations
 #include "strutil.h"
+// for todo list
+#include "todolist.h"
 
 // stores the filename
-const char* filename = "user-data/user_details.dat";
-const char* tempfilename = "user-data/temp_user_details.dat";
+const char* filename = "data/todo_details.dat";
+const char* tempfilename = "data/temp_todo_details.dat";
 
-// writes the user to file
+// writes the todo to file
 // returns true if operation succeeds
 // otherwise returns false
-bool write_to_file(User user) {
+bool write_todo_to_file(Todo* todo) {
     // open the file for append mode
     FILE* fptr = fopen(filename, "ab");
     // validate file pointer
     if (fptr == NULL)   return false;
     // write the object to file
-    fwrite(&user, sizeof(struct User), 1, fptr);
+    fwrite(todo, sizeof(struct Todo), 1, fptr);
     // close the file
     fclose(fptr);
     // success
@@ -37,27 +34,28 @@ bool write_to_file(User user) {
 }
 
 
-// reads the user with given details
+// reads the todo with given id
 // and returns the location where record is found
 // if fails to find then returns -1
-int read_user(User* user) {
+// also if record is found then 
+// updates the passed argument
+int read_todo_from_file(Todo* todo) {
     // open file for reading
     FILE* fptr = fopen(filename, "rb");
     // validate file
     if (fptr == NULL)   return false;
-    // stores the details of the user
-    User tempUser;
+    // stores the details of the todo
+    Todo tempTodo;
     // iterate through file and read documents
-    while (fread(&tempUser, sizeof(struct User), 1, fptr) == 1) {
+    while (fread(&tempTodo, sizeof(tempTodo), 1, fptr) == 1) {
         // check if user matches
-        if (string_equal(user->account_no, tempUser.account_no) 
-                && string_equal(user->pin, tempUser.pin)) {
-            // found user - update details
-            *user = tempUser;
+        if (string_equal(tempTodo.todoId, todo->todoId)) {
+            // found todo - update details
+            *todo = tempTodo;
             // close the file
             fclose(fptr);
             // return the location
-            return ftell(fptr) - 1*sizeof(struct User);
+            return ftell(fptr) - 1*sizeof(struct Todo);
         }
     }
     // close the file
@@ -67,10 +65,9 @@ int read_user(User* user) {
 }
 
 
-// replaces the user with given details (if exist)
-// for update we over-write
-// for delete we drop 
-bool replace_user(User* user, bool dropUser) {
+// replaces the todo with given details (if exist)
+// for update we over-write; for delete we drop 
+bool replace_todo_in_file(Todo* todo, bool dropTodo) {
     // open file for reading
     FILE* fptr = fopen(filename, "rb");
     // validate file
@@ -79,17 +76,17 @@ bool replace_user(User* user, bool dropUser) {
     FILE* tempPtr = fopen(tempfilename, "wb");
     // validate file
     if (tempPtr == NULL)    return false;
-    // stores the details of the user
-    User tempUser;
+    // stores the details of the todo
+    Todo tempTodo;
     // iterate through file and read documents
-    while (fread(&tempUser, sizeof(struct User), 1, fptr) == 1) {
+    while (fread(&tempTodo, sizeof(struct Todo), 1, fptr) == 1) {
         // check if this user matches
-        if (string_equal(user->account_no, tempUser.account_no)) {
+        if (string_equal(tempTodo.todoId, todo->todoId)) {
             // check if we need to write another user
-            if (!dropUser)   fwrite(user, sizeof(struct User), 1, tempPtr);
+            if (!dropTodo)   fwrite(todo, sizeof(struct Todo), 1, tempPtr);
         } else {
             // write object to file
-            fwrite(&tempUser, sizeof(struct User), 1, tempPtr);
+            fwrite(&tempTodo, sizeof(struct Todo), 1, tempPtr);
         }
     }
     // close both the files
@@ -102,35 +99,35 @@ bool replace_user(User* user, bool dropUser) {
     return true;
 }
 
-// saves the user with given details
-bool save_user(User user) {
-    // replace the user with new details
-    return replace_user(&user, false);
+// saves the todo with given details
+bool update_todo_in_file(Todo* todo) {
+    // replace the todo with new details
+    return replace_todo_in_file(todo, false);
 }
 
-// delets the user
-bool delete_user(User user) {
-    // replace the user with null
-    return replace_user(&user, true);
+// deletes the todo
+bool delete_todo_from_file(Todo* todo) {
+    // replace the todo with null
+    return replace_todo_in_file(todo, true);
 }
 
 // reads and returns the 
-// list of users available
-UserList* read_all() {
+// list of todos available
+TodoList* read_all_from_file() {
     // create a new empty list
-    UserList* list = new_user_list();
+    TodoList* list = new_todo_list();
     // validate list
     if (list == NULL)   return list;
     // open file for reading
     FILE* fptr = fopen(filename, "rb");
     // validate file
     if (fptr == NULL)   return list;
-    // stores the details of the user
-    User user;
+    // stores the details of the todo
+    Todo todo;
     // iterate through file and read documents
-    while (fread(&user, sizeof(struct User), 1, fptr) == 1) {
+    while (fread(&todo, sizeof(struct Todo), 1, fptr) == 1) {
         // add the item to list
-        add_to_list(list, user);
+        add_to_list(list, todo);
     }
     // close the file
     fclose(fptr);

@@ -15,7 +15,7 @@
 // definition for user type
 typedef struct User{
     // each user has name
-    char username[USERNAME_SIZE];
+    char username[USERNAME_SIZE + 1];
     // each user has 10-digit account number
     char account_no[ACCOUNT_SIZE + 1];
     // each user has a 4-digit pin

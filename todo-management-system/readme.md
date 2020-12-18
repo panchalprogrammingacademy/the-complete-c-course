@@ -1,13 +1,21 @@
-# BANKING MANAGEMENT SYSTEM  
-This is a simple application written using C programming language for banking management system.  
+# TODO MANAGEMENT SYSTEM  
+This is a simple application written using C programming language for todo management system.  
 The following operations are supported with the application  
-1. New user registration  
-2. Balance enquiry  
-3. Cash withdrawl  
-4. Cash deposit  
-5. Update account details  
-6. Deregister user  
-7. List all users  
+
+0. Add Todo  
+1. Show Todo  
+2. All Todos  
+3. Today's Todos  
+4. Upcoming Todos  
+5. Past Todos  
+6. Done Todos  
+7. Note done Todos  
+8. Mark as done  
+9. Mark as not done  
+10. Edit Todo  
+11. Delete Todo  
+12. Exit  
+
 In short the application demonstrats `CRUD (Create, Read, Update and Delete)` operations using file processing in C programming language.  
 
 # Project structure  
@@ -17,11 +25,11 @@ The project is fully modular and is divided into multiple files. The source code
 `headers/clearscreen.h` defines a function to clear the console. You may wish to update this file depending on your OS (Operating system).  
 `headers/delay.h` defines a busy-wait function so that we can wait for sometime before reprinting the menu - this is done for user-friendly environment.  
 `headers/strutil.h` defines the utility-function for working with strings.  
-`headers/user.h` defines the type of user.  
-`headers/userio.h` define functions which interact with user via console for IO.  
-`headers/banking.h` performs all the file-related operations.  
-`headers/menuhandler.h` acts as an intermediary between the `userio.h` and `banking.h`. It defines all the procedures that handles the user's choice and then invoke functions from `userio.h` for user IO and `banking.h` for reading/writing to file.
-`user-data/user_details.dat` contains the binary file which stores the details about  the users.  
+`headers/todo.h` defines the type of todo.  
+`headers/todoio.h` define functions which interact with user via console for IO.  
+`headers/filehandling.h` performs all the file-related operations.  
+`headers/menuhandler.h` acts as an intermediary between the `todoio.h` and `filehandling.h`. It defines all the procedures that handles the user's choice and then invoke functions from `todoio.h` for user IO and `filehandling.h` for reading/writing to file.
+`data/todo_details.dat` contains the binary file which stores the details about  the users.  
 `executable/main` is the binary executable file.  
 
 

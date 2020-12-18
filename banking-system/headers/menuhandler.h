@@ -268,6 +268,8 @@ void list_all_users() {
 
         // free memory allocated to user list
         free_user_list(list);
+        // wait for user to press any key
+        printf ("Press any key to continue..."); getchar();
         // print finishing message
         printf ("Transaction succeeded\nYou will now be redirected to main menu!\n");
     }
