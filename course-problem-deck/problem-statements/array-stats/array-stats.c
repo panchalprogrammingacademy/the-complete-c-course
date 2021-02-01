@@ -64,8 +64,8 @@ int main(){
 		// odd array size has single median
 		printf ("%lf\n", (double)array[N/2]);
 	} else {
-		// average of (N/2 and N/2 + 1) is medians
-		printf ("%lf\n", (array[N/2] + array[N/2 + 1])/2.0);
+		// average of (N/2 and N/2 - 1) is medians
+		printf ("%lf\n", (array[N/2] + array[N/2 - 1])/2.0);
 	}
 	// successful termination
 	return 0;

@@ -32,7 +32,7 @@ int second_largest(int* array, int N){
 			// and we update the max. to this element
 			secondMaxIndex = firstMaxIndex;
 			firstMaxIndex = k;
-		} else if (array[k] > array[secondMaxIndex]) {
+		} else if (array[k] > array[secondMaxIndex] && array[k] != array[firstMaxIndex]) {
 			// update the index of second max. element
 			secondMaxIndex = k;
 		}
